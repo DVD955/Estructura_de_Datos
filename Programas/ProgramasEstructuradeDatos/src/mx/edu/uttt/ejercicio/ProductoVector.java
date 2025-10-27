@@ -2,16 +2,20 @@ package mx.edu.uttt.ejercicio;
 
 import javax.swing.*;
 
+// Clase que maneja un arreglo (vector) de objetos Productos
+// Contiene operaciones básicas: agregar, eliminar, buscar, modificar e imprimir
 public class ProductoVector {
+    // Arreglo que almacena los productos
     private Productos[] productos;
+    // Tamaño por defecto del arreglo
     private  int TAMANIO = 2;
 
-
+    // Constructor por defecto: crea el arreglo con el tamaño por defecto
     public ProductoVector() {
         this.productos = new Productos[this.TAMANIO];
     }
 
-    // Constructor con parámetro
+    // Constructor con parámetro: crea el arreglo con el tamaño indicado
     public ProductoVector(int tamanio) {
         if (tamanio <= 0)
             this.productos = new Productos[this.TAMANIO];
@@ -19,7 +23,8 @@ public class ProductoVector {
             this.productos = new Productos[tamanio];
     }
 
-    // Agregar producto
+    // Agrega un producto en la primera posición vacía
+    // Si el vector está lleno muestra un mensaje
     public void llenarArreglo(Productos productos) {
         if (estaLleno()) {
             JOptionPane.showMessageDialog(null, "El vector está lleno");
@@ -28,7 +33,8 @@ public class ProductoVector {
         }
     }
 
-    // Buscar primera posición vacía
+    // Busca la primera posición vacía en el arreglo
+    // Devuelve el índice o -1 si no hay posiciones vacías
     private int buscarposicion() {
         int posicion = -1;
         for (int i = 0; i < this.productos.length; i++) {
@@ -40,7 +46,9 @@ public class ProductoVector {
         return posicion;
     }
 
-public boolean eliminarp(String nombre) {
+    // Elimina (pone null) el producto que coincida por nombre
+    // Devuelve true si se eliminó, false si no se encontró
+    public boolean eliminarp(String nombre) {
         int indice = buscarIndicePorNombre(nombre);
         if (indice != -1) {
             this.productos[indice] = null;
@@ -52,6 +60,7 @@ public boolean eliminarp(String nombre) {
     }
 
 
+    // Comprueba si el arreglo está lleno (sin posiciones null)
     public boolean estaLleno() {
         for (Productos productos : this.productos) {
             if (productos == null) {
@@ -62,6 +71,8 @@ public boolean eliminarp(String nombre) {
     }
 
 
+    // Devuelve una cadena con la lista de productos y el importe (precio * stock)
+    // Si no hay productos devuelve un mensaje indicando que está vacío
     public String imprimir() {
         String salida = "Lista de Productos:\n";
         boolean vacio = true;
@@ -81,7 +92,8 @@ public boolean eliminarp(String nombre) {
         return salida;
     }
 
-    // Buscar el índice de un producto por nombre
+    // Busca el índice de un producto por su nombre (ignora mayúsculas)
+    // Devuelve el índice o -1 si no se encuentra
     public int buscarIndicePorNombre(String nombre) {
         for (int i = 0; i < this.productos.length; i++) {
             if (this.productos[i] != null && this.productos[i].getNombre().equalsIgnoreCase(nombre)) {
@@ -91,14 +103,15 @@ public boolean eliminarp(String nombre) {
         return -1;
     }
 
-    // Modificar producto en una posición específica
+    // Modifica el producto en la posición indicada por un nuevo objeto Productos
     public void modificarProducto(int indice, Productos productoModificado) {
         if (indice >= 0 && indice < this.productos.length) {
             this.productos[indice] = productoModificado;
         }
     }
 
-    // Modificar producto por nombre
+    // Busca por nombre y permite reemplazar el producto por uno nuevo (interactivo)
+    // Devuelve true si se modificó
     public boolean modificarProducto(String nombre) {
         int indice = buscarIndicePorNombre(nombre);
         if (indice != -1) {
@@ -112,7 +125,8 @@ public boolean eliminarp(String nombre) {
         return false;
     }
 
-    // Modificar producto permitiendo elegir qué campo modificar
+    // Modificar producto con opciones interactivas (nombre, precio o stock)
+    // Permite al usuario elegir qué campo cambiar y realiza las validaciones básicas
     public boolean modificarProductoInteractivo(String nombre) {
         int indice = buscarIndicePorNombre(nombre);
         if (indice != -1) {
